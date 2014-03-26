@@ -9,7 +9,7 @@ var references = make([]ref, 0)
 
 type ref interface {
 	Name() string
-	SetValue(string) error
+	SetValue(string)
 }
 
 type intRef struct {
@@ -22,32 +22,30 @@ func (i *intRef) Name() string {
 	return i.name
 }
 
-func (i *intRef) SetValue(env string) error {
+func (i *intRef) SetValue(env string) {
 	val, err := strconv.Atoi(env)
 	if err != nil {
 		*i.ref = i.def
-		return err
+		return
 	}
 
 	*i.ref = val
-	return nil
 }
 
 func Int(name string, def int) *int {
 	ref := new(int)
+	IntVar(ref, name, def)
+	return ref
+}
 
+func IntVar(ref *int, name string, def int) {
 	iRef := &intRef{name: name, def: def, ref: ref}
 	references = append(references, iRef)
-
-	return ref
 }
 
 func Parse() error {
 	for _, ref := range references {
-		err := ref.SetValue(os.Getenv(ref.Name()))
-		if err != nil {
-			return err
-		}
+		ref.SetValue(os.Getenv(ref.Name()))
 	}
 
 	return nil
