@@ -1,11 +1,18 @@
 package envar
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 type intRef struct {
 	basicRef
 	def int
 	ref *int
+}
+
+func (i *intRef) Default() string {
+	return fmt.Sprintf("%d", i.def)
 }
 
 func (i *intRef) Set(env string) {

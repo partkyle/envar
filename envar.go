@@ -1,10 +1,19 @@
 package envar
 
+import (
+	"log"
+	"os"
+)
+
+var logger = log.New(os.Stdout, "", 0)
+var usage = Bool("ENVAR_USAGE", false, "print usage and exit")
+
 var references = make([]ref, 0)
 
 type ref interface {
 	Name() string
 	Usage() string
+	Default() string
 	Set(string)
 }
 
@@ -36,5 +45,17 @@ func ParseFromEnvironment(env Environment) error {
 		ref.Set(val)
 	}
 
+	Usage()
+
 	return nil
+}
+
+func Usage() {
+	if *usage {
+		for _, ref := range references {
+			logger.Printf("export %s=%q # %s", ref.Name(), ref.Default(), ref.Usage())
+		}
+
+		os.Exit(127)
+	}
 }

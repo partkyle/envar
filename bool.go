@@ -1,11 +1,18 @@
 package envar
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 type boolRef struct {
 	basicRef
 	def bool
 	ref *bool
+}
+
+func (b *boolRef) Default() string {
+	return fmt.Sprintf("%v", b.def)
 }
 
 func (b *boolRef) Set(env string) {

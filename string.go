@@ -5,6 +5,10 @@ type stringRef struct {
 	ref *string
 }
 
+func (s *stringRef) Default() string {
+	return ""
+}
+
 func (s *stringRef) Set(env string) {
 	*s.ref = env
 }

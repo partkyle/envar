@@ -1,6 +1,9 @@
 package envar
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 type floatRef struct {
 	basicRef
@@ -8,14 +11,18 @@ type floatRef struct {
 	ref *float64
 }
 
-func (i *floatRef) Set(env string) {
+func (f *floatRef) Default() string {
+	return fmt.Sprintf("%f", f.def)
+}
+
+func (f *floatRef) Set(env string) {
 	val, err := strconv.ParseFloat(env, 64)
 	if err != nil {
-		*i.ref = i.def
+		*f.ref = f.def
 		return
 	}
 
-	*i.ref = val
+	*f.ref = val
 }
 
 // Returns a reference to a float64 that will get parsed from the Environment.

@@ -7,26 +7,28 @@ import (
 )
 
 func main() {
-	port := envar.Int("PORT", -1)
+	port := envar.Int("PORT", -1, "simple port")
 	var kport int
-	envar.IntVar(&kport, "KPORT", -1)
+	envar.IntVar(&kport, "KPORT", -1, "simple port reference")
 
-	host := envar.String("HOST")
+	host := envar.String("HOST", "simple host")
 	var khost string
-	envar.StringVar(&khost, "KHOST")
+	envar.StringVar(&khost, "KHOST", "simple host reference")
 
-	debug := envar.Bool("DEBUG", false)
+	debug := envar.Bool("DEBUG", false, "simple debug")
 	var kdebug bool
-	envar.BoolVar(&kdebug, "KDEBUG", true)
+	envar.BoolVar(&kdebug, "KDEBUG", true, "simple debug reference")
 
-	stddev := envar.Float("STDDEV", -1)
+	stddev := envar.Float("STDDEV", -1.2, "simple float")
 	var kstddev float64
-	envar.FloatVar(&kstddev, "KSTDDEV", -1)
+	envar.FloatVar(&kstddev, "KSTDDEV", -1.9, "simple float reference")
 
 	err := envar.Parse()
 	if err != nil {
 		log.Printf("error parsing err=%s", err)
 	}
+
+	envar.Usage()
 
 	log.Printf("got port=%d", *port)
 	log.Printf("got kport=%d", kport)
