@@ -2,14 +2,8 @@ package envar
 
 import "testing"
 
-type env map[string]string
-
-func (e env) Get(key string) string {
-	return e[key]
-}
-
 func TestInt(t *testing.T) {
-	e := env{"PORT": "1000", "NUM_FAILURES": "wat", "FLOAT_TO_FAIL": "1.10",
+	e := basicEnv{"PORT": "1000", "NUM_FAILURES": "wat", "FLOAT_TO_FAIL": "1.10",
 		"REF_PORT": "1000", "REF_NUM_FAILURES": "wat", "REF_FLOAT_TO_FAIL": "1.10"}
 
 	tests := []*struct {
