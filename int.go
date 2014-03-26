@@ -19,16 +19,17 @@ func (i *intRef) Set(env string) {
 }
 
 // Returns a reference to a int that will get parsed from the Environment.
-func Int(name string, def int) *int {
+func Int(name string, def int, usage string) *int {
 	ref := new(int)
-	IntVar(ref, name, def)
+	IntVar(ref, name, def, usage)
 	return ref
 }
 
 // Assigns the value from the Environment to the provided int reference.
-func IntVar(ref *int, name string, def int) {
+func IntVar(ref *int, name string, def int, usage string) {
 	iRef := &intRef{def: def, ref: ref}
 	iRef.name = name
+	iRef.usage = usage
 
 	references = append(references, iRef)
 }
