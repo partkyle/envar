@@ -43,8 +43,8 @@ func TestBool(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		BoolVar(&test.actual, test.key, test.defaultBool)
-		test.actualRef = Bool("REF_"+test.key, test.defaultBool)
+		BoolVar(&test.actual, test.key, test.defaultBool, "Phony usage for bool "+test.key)
+		test.actualRef = Bool("REF_"+test.key, test.defaultBool, "Phony usage for bool "+test.key+" REF")
 	}
 
 	err := ParseFromEnvironment(e)
