@@ -99,8 +99,12 @@ func BoolVar(ref *bool, name string, def bool) {
 }
 
 func Parse() error {
+	return ParseFromEnvironment(defaultEnvironment)
+}
+
+func ParseFromEnvironment(env Environment) error {
 	for _, ref := range references {
-		val := defaultEnvironment.Get(ref.Name())
+		val := env.Get(ref.Name())
 		ref.Set(val)
 	}
 
