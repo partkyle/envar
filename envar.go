@@ -12,14 +12,18 @@ type ref interface {
 	Set(string)
 }
 
-type intRef struct {
+type basicRef struct {
 	name string
-	def  int
-	ref  *int
 }
 
-func (i *intRef) Name() string {
-	return i.name
+func (b *basicRef) Name() string {
+	return b.name
+}
+
+type intRef struct {
+	basicRef
+	def int
+	ref *int
 }
 
 func (i *intRef) Set(env string) {
@@ -39,18 +43,16 @@ func Int(name string, def int) *int {
 }
 
 func IntVar(ref *int, name string, def int) {
-	iRef := &intRef{name: name, def: def, ref: ref}
+	iRef := &intRef{def: def, ref: ref}
+	iRef.name = name
+
 	references = append(references, iRef)
 }
 
 type stringRef struct {
-	name string
-	def  string
-	ref  *string
-}
-
-func (s *stringRef) Name() string {
-	return s.name
+	basicRef
+	def string
+	ref *string
 }
 
 func (s *stringRef) Set(env string) {
@@ -64,18 +66,16 @@ func String(name string, def string) *string {
 }
 
 func StringVar(ref *string, name string, def string) {
-	sRef := &stringRef{name: name, def: def, ref: ref}
+	sRef := &stringRef{def: def, ref: ref}
+	sRef.name = name
+
 	references = append(references, sRef)
 }
 
 type boolRef struct {
-	name string
-	def  bool
-	ref  *bool
-}
-
-func (b *boolRef) Name() string {
-	return b.name
+	basicRef
+	def bool
+	ref *bool
 }
 
 func (b *boolRef) Set(env string) {
@@ -95,8 +95,10 @@ func Bool(name string, def bool) *bool {
 }
 
 func BoolVar(ref *bool, name string, def bool) {
-	iRef := &boolRef{name: name, def: def, ref: ref}
-	references = append(references, iRef)
+	bRef := &boolRef{def: def, ref: ref}
+	bRef.name = name
+
+	references = append(references, bRef)
 }
 
 func Parse() error {
