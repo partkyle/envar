@@ -3,8 +3,11 @@ package envar
 import "testing"
 
 func TestString(t *testing.T) {
-	e := basicEnv{"HOST": "1000", "NUM_FAILURES": "wat",
-		"REF_HOST": "1000", "REF_NUM_FAILURES": "wat"}
+	e := basicEnv{"HOST": "1000", "NUM_FAILURES": "wat"}
+	// copy over for the reference func version tests
+	for k, v := range e {
+		e["REF_"+k] = v
+	}
 
 	tests := []*struct {
 		key       string
@@ -17,8 +20,8 @@ func TestString(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		StringVar(&test.actual, test.key)
-		test.actualRef = String("REF_" + test.key)
+		StringVar(&test.actual, test.key, "Phony usage for string "+test.key)
+		test.actualRef = String("REF_"+test.key, "Phony usage for string "+test.key+" REF")
 	}
 
 	err := ParseFromEnvironment(e)
