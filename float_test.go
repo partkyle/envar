@@ -24,8 +24,8 @@ func TestFloat(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		FloatVar(&test.actual, test.key, test.defaultFloat)
-		test.actualRef = Float("REF_"+test.key, test.defaultFloat)
+		FloatVar(&test.actual, test.key, test.defaultFloat, "Phony usage for float "+test.key)
+		test.actualRef = Float("REF_"+test.key, test.defaultFloat, "Phony usage for float "+test.key+" REF")
 	}
 
 	err := ParseFromEnvironment(e)
