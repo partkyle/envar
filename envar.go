@@ -1,9 +1,6 @@
 package envar
 
-import (
-	"os"
-	"strconv"
-)
+import "strconv"
 
 var references = make([]ref, 0)
 
@@ -103,7 +100,8 @@ func BoolVar(ref *bool, name string, def bool) {
 
 func Parse() error {
 	for _, ref := range references {
-		ref.Set(os.Getenv(ref.Name()))
+		val := defaultEnvironment.Get(ref.Name())
+		ref.Set(val)
 	}
 
 	return nil
