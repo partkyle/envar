@@ -68,6 +68,37 @@ func StringVar(ref *string, name string, def string) {
 	references = append(references, sRef)
 }
 
+type boolRef struct {
+	name string
+	def  bool
+	ref  *bool
+}
+
+func (b *boolRef) Name() string {
+	return b.name
+}
+
+func (b *boolRef) Set(env string) {
+	val, err := strconv.ParseBool(env)
+	if err != nil {
+		*b.ref = b.def
+		return
+	}
+
+	*b.ref = val
+}
+
+func Bool(name string, def bool) *bool {
+	ref := new(bool)
+	BoolVar(ref, name, def)
+	return ref
+}
+
+func BoolVar(ref *bool, name string, def bool) {
+	iRef := &boolRef{name: name, def: def, ref: ref}
+	references = append(references, iRef)
+}
+
 func Parse() error {
 	for _, ref := range references {
 		ref.Set(os.Getenv(ref.Name()))
