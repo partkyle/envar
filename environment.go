@@ -4,6 +4,8 @@ import "os"
 
 var defaultEnvironment = &osEnviron{}
 
+// An object can implement this interface in order to be used in
+// `ParseFromEnvironment`
 type Environment interface {
 	// Retrieve a value from the environment.
 	Get(string) string
