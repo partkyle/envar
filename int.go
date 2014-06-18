@@ -18,7 +18,6 @@ func (i *intRef) Default() string {
 func (i *intRef) Set(env string) {
 	val, err := strconv.Atoi(env)
 	if err != nil {
-		*i.ref = i.def
 		return
 	}
 
@@ -37,6 +36,7 @@ func IntVar(ref *int, name string, def int, usage string) {
 	iRef := &intRef{def: def, ref: ref}
 	iRef.name = name
 	iRef.usage = usage
+	*iRef.ref = def
 
 	references = append(references, iRef)
 }

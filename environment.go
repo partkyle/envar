@@ -1,6 +1,10 @@
 package envar
 
-import "os"
+import (
+	"fmt"
+	"os"
+	"strings"
+)
 
 var defaultEnvironment = &osEnviron{}
 
@@ -8,17 +12,25 @@ var defaultEnvironment = &osEnviron{}
 // `ParseFromEnvironment`
 type Environment interface {
 	// Retrieve a value from the environment.
-	Get(string) string
+	Get(string) (string, bool)
 }
 
 type osEnviron struct{}
 
-func (o *osEnviron) Get(key string) string {
-	return os.Getenv(key)
+func (o *osEnviron) Get(key string) (string, bool) {
+	env := os.Environ()
+	for _, value := range env {
+		if strings.HasPrefix(value, fmt.Sprintf("%s=", key)) {
+			return os.Getenv(key), true
+		}
+	}
+	return "", false
 }
 
 type basicEnv map[string]string
 
-func (b basicEnv) Get(key string) string {
-	return b[key]
+func (b basicEnv) Get(key string) (string, bool) {
+	val, ok := b[key]
+
+	return val, ok
 }

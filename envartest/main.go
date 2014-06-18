@@ -2,18 +2,21 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/partkyle/envar"
 )
 
 func main() {
+	logger := log.New(os.Stdout, "", 0)
+
 	port := envar.Int("PORT", -1, "simple port")
 	var kport int
 	envar.IntVar(&kport, "KPORT", -1, "simple port reference")
 
-	host := envar.String("HOST", "simple host")
+	host := envar.String("HOST", "localhost", "simple host")
 	var khost string
-	envar.StringVar(&khost, "KHOST", "simple host reference")
+	envar.StringVar(&khost, "KHOST", "localhost", "simple host reference")
 
 	debug := envar.Bool("DEBUG", false, "simple debug")
 	var kdebug bool
@@ -25,17 +28,15 @@ func main() {
 
 	err := envar.Parse()
 	if err != nil {
-		log.Printf("error parsing err=%s", err)
+		logger.Printf("error parsing err=%s", err)
 	}
 
-	envar.Usage()
-
-	log.Printf("got port=%d", *port)
-	log.Printf("got kport=%d", kport)
-	log.Printf("got host=%s", *host)
-	log.Printf("got khost=%s", khost)
-	log.Printf("got debug=%v", *debug)
-	log.Printf("got kdebug=%v", kdebug)
-	log.Printf("got stddev=%f", *stddev)
-	log.Printf("got kstddev=%f", kstddev)
+	logger.Printf("PORT=%d", *port)
+	logger.Printf("KPORT=%d", kport)
+	logger.Printf("HOST=%s", *host)
+	logger.Printf("KHOST=%s", khost)
+	logger.Printf("DEBUG=%v", *debug)
+	logger.Printf("KDEBUG=%v", kdebug)
+	logger.Printf("STDDEV=%f", *stddev)
+	logger.Printf("KSTDDEV=%f", kstddev)
 }

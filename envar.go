@@ -41,8 +41,10 @@ func Parse() error {
 // Parses from the provided environment.
 func ParseFromEnvironment(env Environment) error {
 	for _, ref := range references {
-		val := env.Get(ref.Name())
-		ref.Set(val)
+		val, ok := env.Get(ref.Name())
+		if ok {
+			ref.Set(val)
+		}
 	}
 
 	Usage()

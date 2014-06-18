@@ -18,7 +18,6 @@ func (b *boolRef) Default() string {
 func (b *boolRef) Set(env string) {
 	val, err := strconv.ParseBool(env)
 	if err != nil {
-		*b.ref = b.def
 		return
 	}
 
@@ -37,6 +36,7 @@ func BoolVar(ref *bool, name string, def bool, usage string) {
 	bRef := &boolRef{def: def, ref: ref}
 	bRef.name = name
 	bRef.usage = usage
+	*bRef.ref = def
 
 	references = append(references, bRef)
 }

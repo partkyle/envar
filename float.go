@@ -18,7 +18,6 @@ func (f *floatRef) Default() string {
 func (f *floatRef) Set(env string) {
 	val, err := strconv.ParseFloat(env, 64)
 	if err != nil {
-		*f.ref = f.def
 		return
 	}
 
@@ -37,6 +36,7 @@ func FloatVar(ref *float64, name string, def float64, usage string) {
 	fRef := &floatRef{def: def, ref: ref}
 	fRef.name = name
 	fRef.usage = usage
+	*fRef.ref = def
 
 	references = append(references, fRef)
 }

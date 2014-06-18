@@ -10,18 +10,20 @@ func TestString(t *testing.T) {
 	}
 
 	tests := []*struct {
-		key       string
-		expected  string
-		actual    string
-		actualRef *string
+		key           string
+		defaultString string
+		expected      string
+		actual        string
+		actualRef     *string
 	}{
 		{key: "HOST", expected: "1000"},
 		{key: "NUM_FAILURES", expected: "wat"},
+		{key: "NOT_IN_ENV", defaultString: "woot", expected: "woot"},
 	}
 
 	for _, test := range tests {
-		StringVar(&test.actual, test.key, "Phony usage for string "+test.key)
-		test.actualRef = String("REF_"+test.key, "Phony usage for string "+test.key+" REF")
+		StringVar(&test.actual, test.key, test.defaultString, "Phony usage for string "+test.key)
+		test.actualRef = String("REF_"+test.key, test.defaultString, "Phony usage for string "+test.key+" REF")
 	}
 
 	err := ParseFromEnvironment(e)
