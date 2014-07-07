@@ -12,6 +12,7 @@ var defaultEnvironment = &osEnviron{}
 // `ParseFromEnvironment`
 type Environment interface {
 	// Retrieve a value from the environment.
+	// Return the value as a string and a boolean whether or not the value was found.
 	Get(string) (string, bool)
 }
 
