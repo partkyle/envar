@@ -2,7 +2,6 @@ package envar
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"os"
 )
@@ -18,7 +17,6 @@ var usage = internalEnvSet.Bool("ENVAR_USAGE", false, "print usage and exit")
 
 func init() {
 	internalEnvSet.Parse()
-	fmt.Println("got usage", *usage)
 }
 
 type ref interface {
