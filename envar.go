@@ -1,14 +1,25 @@
 package envar
 
 import (
+	"errors"
+	"fmt"
 	"log"
 	"os"
 )
 
-var logger = log.New(os.Stdout, "", 0)
-var usage = Bool("ENVAR_USAGE", false, "print usage and exit")
+var ErrUsageRequested = errors.New("envar stopped: usage requested")
 
-var references = make([]ref, 0)
+var logger = log.New(os.Stdout, "", 0)
+
+var internalEnvSet = NewEnvSet()
+var defaultEnvSet = NewEnvSet()
+
+var usage = internalEnvSet.Bool("ENVAR_USAGE", false, "print usage and exit")
+
+func init() {
+	internalEnvSet.Parse()
+	fmt.Println("got usage", *usage)
+}
 
 type ref interface {
 	Name() string
@@ -40,24 +51,20 @@ func Parse() error {
 
 // Parses from the provided environment.
 func ParseFromEnvironment(env Environment) error {
-	for _, ref := range references {
-		val, ok := env.Get(ref.Name())
-		if ok {
-			ref.Set(val)
-		}
+	err := defaultEnvSet.ParseFromEnvironment(env)
+	if err != nil {
+		return err
 	}
 
-	Usage()
+	if *usage {
+		Usage()
+
+		return ErrUsageRequested
+	}
 
 	return nil
 }
 
 func Usage() {
-	if *usage {
-		for _, ref := range references {
-			logger.Printf("export %s=%q # %s", ref.Name(), ref.Default(), ref.Usage())
-		}
-
-		os.Exit(127)
-	}
+	defaultEnvSet.Usage()
 }

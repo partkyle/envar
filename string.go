@@ -15,17 +15,10 @@ func (s *stringRef) Set(env string) {
 
 // Returns a reference to a string that will get set from the Environment.
 func String(name string, def string, usage string) *string {
-	ref := new(string)
-	StringVar(ref, name, def, usage)
-	return ref
+	return defaultEnvSet.String(name, def, usage)
 }
 
 // Assigns the value from the Environment to the provided string reference.
 func StringVar(ref *string, name string, def string, usage string) {
-	sRef := &stringRef{ref: ref}
-	sRef.name = name
-	sRef.usage = usage
-	*sRef.ref = def
-
-	references = append(references, sRef)
+	defaultEnvSet.StringVar(ref, name, def, usage)
 }
