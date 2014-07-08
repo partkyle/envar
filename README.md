@@ -15,8 +15,6 @@ import (
   "io"
   "log"
   "net"
-  "os"
-  "path"
 
   "github.com/partkyle/envar"
 )
@@ -39,8 +37,6 @@ func main() {
     log.Fatalf("err listening: %s")
   }
 
-  log.Println(path.Base(os.Args[0]))
-
   log.Printf("listening on %s", listener.Addr())
 
   for {
@@ -54,4 +50,5 @@ func main() {
     }(conn)
   }
 }
+
 ```
