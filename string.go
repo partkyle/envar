@@ -6,7 +6,7 @@ type stringRef struct {
 }
 
 func (s *stringRef) Default() string {
-	return ""
+	return *s.ref
 }
 
 func (s *stringRef) Set(env string) {
