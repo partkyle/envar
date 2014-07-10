@@ -105,3 +105,11 @@ func (e *envSet) StringVar(ref *string, name string, def string, usage string) {
 
 	e.references = append(e.references, sRef)
 }
+
+func (e *envSet) Var(value Value, name string, def string, usage string) {
+
+}
+
+type Value interface {
+	Set(string) error
+}

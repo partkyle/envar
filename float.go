@@ -15,13 +15,14 @@ func (f *floatRef) Default() string {
 	return fmt.Sprintf("%f", f.def)
 }
 
-func (f *floatRef) Set(env string) {
+func (f *floatRef) Set(env string) error {
 	val, err := strconv.ParseFloat(env, 64)
 	if err != nil {
-		return
+		return err
 	}
 
 	*f.ref = val
+	return nil
 }
 
 // Returns a reference to a float64 that will get parsed from the Environment.

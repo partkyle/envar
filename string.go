@@ -10,8 +10,9 @@ func (s *stringRef) Default() string {
 	return s.def
 }
 
-func (s *stringRef) Set(env string) {
+func (s *stringRef) Set(env string) error {
 	*s.ref = env
+	return nil
 }
 
 // Returns a reference to a string that will get set from the Environment.

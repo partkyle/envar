@@ -15,13 +15,14 @@ func (i *intRef) Default() string {
 	return fmt.Sprintf("%d", i.def)
 }
 
-func (i *intRef) Set(env string) {
+func (i *intRef) Set(env string) error {
 	val, err := strconv.Atoi(env)
 	if err != nil {
-		return
+		return err
 	}
 
 	*i.ref = val
+	return nil
 }
 
 // Returns a reference to a int that will get parsed from the Environment.

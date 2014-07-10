@@ -15,13 +15,14 @@ func (b *boolRef) Default() string {
 	return fmt.Sprintf("%v", b.def)
 }
 
-func (b *boolRef) Set(env string) {
+func (b *boolRef) Set(env string) error {
 	val, err := strconv.ParseBool(env)
 	if err != nil {
-		return
+		return err
 	}
 
 	*b.ref = val
+	return nil
 }
 
 // Returns a reference to a bool that will get parsed from the Environment.
