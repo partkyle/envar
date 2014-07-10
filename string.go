@@ -3,10 +3,11 @@ package envar
 type stringRef struct {
 	basicRef
 	ref *string
+	def string
 }
 
 func (s *stringRef) Default() string {
-	return *s.ref
+	return s.def
 }
 
 func (s *stringRef) Set(env string) {

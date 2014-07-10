@@ -98,7 +98,7 @@ func (e *envSet) String(name string, def string, usage string) *string {
 
 // Assigns the value from the Environment to the provided string reference.
 func (e *envSet) StringVar(ref *string, name string, def string, usage string) {
-	sRef := &stringRef{ref: ref}
+	sRef := &stringRef{ref: ref, def: def}
 	sRef.name = name
 	sRef.usage = usage
 	*sRef.ref = def
